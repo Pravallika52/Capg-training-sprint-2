@@ -1,4 +1,4 @@
-import React from "react";
+import React  from "react";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,14 +6,22 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import DeleteIcon from '@mui/icons-material/Delete';
+import UpdateIcon from '@mui/icons-material/Update';
+import Button from '@mui/material/Button';
+import { NavLink } from "react-router-dom";
+
+
 
 const DoctorTable = (props) => {
+
+
+
     return(
         <div align="center">
-            <br/>
-            <br/>
-            <h3 >Add Doctor</h3>
+            <NavLink to="/addDoctor">
+            <Button variant="contained">Add Doctor</Button></NavLink>
             <TableContainer  component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
@@ -33,18 +41,15 @@ const DoctorTable = (props) => {
                         >
                         <TableCell component="th" scope="row">{doctor.doctorId}</TableCell>
                         <TableCell align="right">{doctor.doctorName}</TableCell>
-                        <TableCell align="right">{doctor.Specialization.specName}</TableCell>
-                        <TableCell align="right">if ({doctor.doctorAvailable}==true){<h4>Available</h4>}
-                                                 else {<h4>Unavailable</h4>}</TableCell>
-                        <TableCell align="right">del
-                        {/* <Link to={`/admin/update/${admin.adminId}`}>
-                                <i className="bi bi-arrow-repeat me-3"></i>
+                        <TableCell align="right">{doctor.spec}</TableCell>
+                        <TableCell align="right">{doctor.doctorAvailable?<h4>Available</h4>:<h4>Unavailable</h4>}</TableCell>
+                        <TableCell align="right">
+                        <Link to={`/admin/updateDoctor/${doctor.doctorId}`}>
+                                <UpdateIcon/>
                             </Link>
-                                <i
-                                className="bi bi-trash-fill"
-                                type="button"
-                                onClick={() => props.handleDelete(admin.adminId)}>
-                                </i> */}
+                            <Button onClick={() => props.handleDelete(doctor.doctorId)} variant="text">
+                            <DeleteIcon/>
+                            </Button>
                         </TableCell>
                         </TableRow>
                     ))}

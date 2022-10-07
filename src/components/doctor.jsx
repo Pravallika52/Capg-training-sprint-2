@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import DoctorTable from "./doctorTable";
+import { Toolbar } from "@mui/material";
 
 class Doctor extends Component{
     state = {
@@ -30,7 +31,8 @@ class Doctor extends Component{
     render() {
         return(
             <div>
-                <h4>Doctor Details</h4>
+                <Toolbar />
+                <h2 align="center">Doctor Details</h2>
                     <DoctorTable doctor={this.state.doctor}
                                 handleDelete={this.handleDelete}/>
             </div>

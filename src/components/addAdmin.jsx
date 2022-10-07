@@ -94,14 +94,14 @@ const AddAdmin = () => {
                         style={{ width: "300px", margin: "10px" }}
                         id="email"
                         name="email"
-                        label="Eamil"
+                        label="Email"
                         value={admin.email}
                         onChange={handleChange}/>
                     <br/>
                     <TextField
                         required
                         style={{ width: "300px", margin: "10px" }}
-                        id="outlined-password-input"
+                        id="password"
                         name="password"
                         label="Password"
                         type="password"

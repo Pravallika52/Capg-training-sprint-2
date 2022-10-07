@@ -14,17 +14,21 @@ const UpdateAdmin = () => {
   // define state
   const[admin, setAdmin]=useState({
     adminId:"",
-    name:"",
-    contact:"",
-    email:"",
-    password:"",
-    role:"",
+    adminName:"",
+    loginEmail:"",
 });
+
 
   
   useEffect(() => {
-    axios.get(`http://localhost:8080/admin/findById/${params.id}`)
-      .then((res) => setAdmin(res.data))
+    axios.get(`http://localhost:8080/admin/findfullById/${params.id}`)
+      .then((res) => {
+        const admin={
+        adminId:res.data.adminId,
+        adminName:res.data.adminName,
+        loginEmail:res.data.login.loginEmail,
+      }
+      setAdmin(admin)})
       .catch((err) => console.log(err));
   }, []);
 
@@ -33,26 +37,44 @@ const UpdateAdmin = () => {
     console.log(event.target.value); // retruns filed value
 
     const newAdmin = { ...admin };
+  
 
     newAdmin[event.target.name] = event.target.value;
-
+  
     setAdmin(newAdmin);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // send put request to update
+    console.log("handleSubmit");
+
+        const newAdmin={
+            adminId:admin.adminId,
+            adminName:admin.adminName,
+            contact:admin.contact,
+            login: {
+                id:admin.login.id,
+                loginEmail:admin.login.loginEmail,
+            },
+
+        };
+
+
+        console.log(newAdmin);
+
     axios
       .put(`http://localhost:8080/admin/update/${params.id}`, admin)
       .then((res) => {
         console.log(res);
         // alert user with msg
-        alert("Updated Administrator " + res.data.name + " successfully!");
+        alert("Updated Administrator " + res.data.adminName + " successfully!");
         // redirect to employees page
         navigate("/admin");
       })
       .catch((error) => console.log(error));
   };
+  
   return (
     <div>
       <Toolbar/>
@@ -67,7 +89,7 @@ const UpdateAdmin = () => {
                 autoComplete="off">
                 <div>
                 <TextField
-                        required
+                        disabled
                         style={{ width: "300px", margin: "10px" }}
                         type="text"
                         name="adminId"
@@ -80,48 +102,19 @@ const UpdateAdmin = () => {
                         required
                         style={{ width: "300px", margin: "10px" }}
                         type="text"
-                        name="name"
+                        name="adminName"
                         label="Admin Name"
                         variant="outlined"
-                        value={admin.name}
-                        onChange={handleChange}/>
-                    <br/>
-                    <TextField
-                        required
-                        style={{ width: "300px", margin: "10px" }}
-                        type="text"
-                        name="contact"
-                        id="contact"
-                        label="Contact"
-                        value={admin.contact}
+                        value={admin.adminName}
                         onChange={handleChange}/>
                     <br/>
                     <TextField
                         required
                         style={{ width: "300px", margin: "10px" }}
                         id="email"
-                        name="email"
+                        name="loginEmail"
                         label="Eamil"
-                        value={admin.email}
-                        onChange={handleChange}/>
-                    <br/>
-                    <TextField
-                        required
-                        style={{ width: "300px", margin: "10px" }}
-                        id="outlined-password-input"
-                        name="password"
-                        label="Password"
-                        type="password"
-                        value={admin.password}
-                        onChange={handleChange}/>
-                    <br/>
-                    <TextField
-                        required
-                        style={{ width: "300px", margin: "10px" }}
-                        id="role"
-                        name="role"
-                        label="Role"
-                        value={admin.role}
+                        value={admin.loginEmail}
                         onChange={handleChange}/>
                     <br/>
                 </div>
