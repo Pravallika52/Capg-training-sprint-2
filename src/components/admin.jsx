@@ -31,8 +31,7 @@ class Admin extends Component{
     render() {
         return(
             <div>
-                <Toolbar />
-                <h2 align="center">Admin Details</h2>
+                
                     <AdminTable admin={this.state.admin}
                                 handleDelete={this.handleDelete}/>
             </div>

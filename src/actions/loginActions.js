@@ -1,10 +1,10 @@
 import axios from "axios";
 
-// Register
-export const registerAction = (employee) => async (dispatch) => {
+// Register Action
+export const registerAction = (patient) => async (dispatch) => {
   const result = await axios.post(
-    "http://localhost:8080/employee/register",
-    employee
+    "http://localhost:8080/patient/add",
+    patient
   );
   console.log(result);
   console.log(result.data);
@@ -14,17 +14,7 @@ export const registerAction = (employee) => async (dispatch) => {
   });
 };
 
-// login action
-// export const loginAction = (login) => async (dispatch) => {
-//   const result = await axios.post("http://localhost:8080/login/dto", login);
-//   console.log(result);
-//   console.log(result.data);
-//   dispatch({
-//     type: "LOGIN",
-//     payload: result.data,
-//   });
-// };
-
+// Login Action
 export const loginAction = (login) => (dispatch) => {
   axios
     .post("http://localhost:8080/login/dto", login)
@@ -53,4 +43,25 @@ export const logoutAction = (email) => async (dispatch) => {
     type: "LOGOUT",
     payload: result.data,
   });
+};
+
+export const LoginDetailsAction=(email)=>(dispatch)=>{
+
+  axios.get(`http://localhost:8080/login/getEmail/${email}`)
+    .then((res)=>{
+        console.log(res);
+        dispatch({
+            type: "GET_LOGIN_BY_EMAIL",
+            payload:res.data,
+        });
+    })
+    .catch((error)=>{
+        console.log(error.response.data.message);
+        dispatch({
+            type:"ERR_RES",
+            payload:error.response.data.message,
+        });
+    });
+
+
 };

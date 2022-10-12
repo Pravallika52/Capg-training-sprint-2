@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import { Toolbar } from "@mui/material";
 import Select from "@mui/material/Select";
 import MenuItem from '@mui/material/MenuItem';
+import BackGround from '../images/adminBg.jpg';
 
 
 const AddDoctor = () => {
@@ -15,8 +16,11 @@ const AddDoctor = () => {
     const[doctor, setDoctor]=useState({
         doctorName:"",
         spec:"",
-        doctorAvailability:"",
+        doctorAvailable:"",
     });
+
+    const[doctorErrors, setADoctorErrors]=useState({});
+    const[isSubmit,setIsSubmit]=useState(false);
 
     const handleChange = (event) =>{
         console.log(event.target.name);
@@ -32,12 +36,15 @@ const AddDoctor = () => {
     const handleSubmit = (event) =>{
         event.preventDefault();
 
+        setADoctorErrors(validate(doctor));
+        setIsSubmit(true);
+
         console.log("handleSubmit");
 
         const newDoctor={
             doctorName:doctor.doctorName,
             spec:doctor.spec,
-            doctorAvailability:doctor.doctorAvailability,
+            doctorAvailable:doctor.doctorAvailable,
         };
 
 
@@ -52,8 +59,26 @@ const AddDoctor = () => {
              .catch((error)=> console.log(error));
     };
 
+    useEffect(() =>{
+        console.log(doctorErrors);
+        if(Object.keys(doctorErrors).length===0 && isSubmit){
+            console.log(doctor);
+        }
+    },[doctorErrors])
+
+    const validate = (values) =>{
+        const errors ={}
+        if(!values.doctorName){
+            errors.doctorName="Name is Required!";
+        }
+        if(!values.spec){
+            errors.spec="Specialization is Required!";
+        }
+        return errors;
+    };
+
     return(
-        <div>
+        <div style={{ height: '100vh', backgroundSize: '50%', backgroundImage: `url(${BackGround})` }}>
             <Toolbar/>
             <h2 align="center">Add New Doctor</h2>
             <form className="border p-3" onSubmit={handleSubmit}>
@@ -66,7 +91,7 @@ const AddDoctor = () => {
                 autoComplete="off">
                 <div>
                     <TextField
-                        required
+                        
                         style={{ width: "300px", margin: "10px" }}
                         type="text"
                         name="doctorName"
@@ -75,8 +100,10 @@ const AddDoctor = () => {
                         value={doctor.doctorName}
                         onChange={handleChange}/>
                     <br/>
+                    <h4 style={{color: "red"}}>{doctorErrors.doctorName}</h4>
+                    <h4>Specialization</h4>
                     <Select
-                            required
+                            
                             id="spec"
                             name="spec"
                             value={doctor.spec}
@@ -101,7 +128,9 @@ const AddDoctor = () => {
                             <MenuItem value={"Ophthalmologists"}>Ophthalmologists</MenuItem>
                             <MenuItem value={"Pediatricians"}>Pediatricians</MenuItem>
                         </Select>
+                        <h4 style={{color: "red"}}>{doctorErrors.spec}</h4>
                         <br/>
+                        <h4>Availability</h4>
                         <Select
                             required
                             id="availability"

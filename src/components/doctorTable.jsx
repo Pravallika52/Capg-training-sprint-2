@@ -6,44 +6,61 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpdateIcon from '@mui/icons-material/Update';
 import Button from '@mui/material/Button';
 import { NavLink } from "react-router-dom";
+import BackGround from '../images/adminBg.jpg';
+import { Toolbar } from "@mui/material";
 
+const styles = theme => ({
+    tableRow: {
+     '&&:hover': {
+        background: "blue",
+      },
+     },
+  });
 
+function DoctorTable(props){
 
-const DoctorTable = (props) => {
-
-
+    let navigate = useNavigate();
+    const goToPreviousPath = () => {
+        navigate(-1)
+    }
 
     return(
-        <div align="center">
-            <NavLink to="/addDoctor">
+        <div style={{ height: '100vh', backgroundSize: '100%', backgroundImage: `url(${BackGround})` }}>
+            <Toolbar/>
+            <div align="center" >
+            <h2 align="center">Doctor Details</h2>
+            <NavLink to="/addDoctor" style={{ textDecoration: 'none' }}>
             <Button variant="contained">Add Doctor</Button></NavLink>
-            <TableContainer  component={Paper}>
+            <TableContainer  component={Paper} sx={{ px:25 }} style={{ height: '77vh', backgroundSize: '50%', backgroundImage: `url(${BackGround})` }} >
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow sx={{backgroundColor: "#3989D5"}}>
                             <TableCell>Doctor Id</TableCell>
-                            <TableCell align="right">Name</TableCell>
-                            <TableCell align="right">Specialization</TableCell>
-                            <TableCell align="right">Availability</TableCell>
-                            <TableCell align="right">Action</TableCell>
+                            <TableCell align="left">Name</TableCell>
+                            <TableCell align="left">Specialization</TableCell>
+                            <TableCell align="left">Availability</TableCell>
+                            <TableCell align="left">Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                     {props.doctor.map((doctor)=> (
                         <TableRow
+
+                        hover
+                        className={props.tableRow}
                         key={doctor.doctorId}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        sx={{ backgroundColor: "#B1CFEC",'&:last-child td, &:last-child th': { border: 0 } }}
                         >
                         <TableCell component="th" scope="row">{doctor.doctorId}</TableCell>
-                        <TableCell align="right">{doctor.doctorName}</TableCell>
-                        <TableCell align="right">{doctor.spec}</TableCell>
-                        <TableCell align="right">{doctor.doctorAvailable?<h4>Available</h4>:<h4>Unavailable</h4>}</TableCell>
-                        <TableCell align="right">
+                        <TableCell align="left">{doctor.doctorName}</TableCell>
+                        <TableCell align="left">{doctor.spec}</TableCell>
+                        <TableCell align="left">{doctor.doctorAvailable?<h7>Available</h7>:<h7>Unavailable</h7>}</TableCell>
+                        <TableCell align="left">
                         <Link to={`/admin/updateDoctor/${doctor.doctorId}`}>
                                 <UpdateIcon/>
                             </Link>
@@ -55,8 +72,12 @@ const DoctorTable = (props) => {
                     ))}
                     </TableBody>
                 </Table>
+                <Button variant="contained" color="secondary" size="small"
+                   onClick={goToPreviousPath} style={{textDecoration:'None'}}>
+            Go Back
+         </Button>
                 </TableContainer>
-            
+                </div>
         </div>
     )
 }

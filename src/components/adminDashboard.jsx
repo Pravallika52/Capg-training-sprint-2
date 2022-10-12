@@ -11,33 +11,30 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import ElderlyIcon from '@mui/icons-material/Elderly';
 import { NavLink } from 'react-router-dom';
+import BackGround from '../images/adminBg.jpg';
+import DoctorImg from '../images/doc.jpg';
+import RepImg from '../images/rep.jpg';
+import PatientImg from '../images/patient.png';
+import MedImg from '../images/med.jpg';
+import AdminImg from '../images/admin.png';
+
 
 const mdTheme = createTheme();
+
+
 
 function AdminDashboard() {
  
   return (
-    <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: 'flex' }}>
-        
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-            flexGrow: 1,
-            height: '100vh',
-            overflow: 'auto',
-          }}
-        >
+    <div style={{  height: '100vh', backgroundSize: '50%', backgroundImage: `url(${BackGround})` }}> 
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <div >
+          <Container maxWidth='lg' sx={{ mt: 2, mb: 1 }} >
             <Grid container spacing={3}>
               {/* Chart */}
               <Grid item xs={5} md={2} lg={4} >
                 <Paper
+                  style={{ backgroundSize: 'cover', backgroundImage: `url(${DoctorImg})` }}
                   sx={{
                     p: 2,
                     display: 'flex',
@@ -45,14 +42,15 @@ function AdminDashboard() {
                     height: 240,
                   }}
                 >
-                  <NavLink to="/doctor">
-                  <LocalHospitalIcon />
+                  <NavLink to="/doctor" style={{ color:'DarkBlue', textDecoration: 'none' }}>
+                  <LocalHospitalIcon/>
                   <h2>Doctors</h2>
                   </NavLink>
                 </Paper>
               </Grid>
               <Grid item xs={5} md={2} lg={4} >
                 <Paper
+                style={{backgroundSize: '50%', backgroundRepeat:'no-repeat', backgroundPosition:'right', backgroundImage: `url(${RepImg})` }}
                   sx={{
                     p: 2,
                     display: 'flex',
@@ -60,12 +58,15 @@ function AdminDashboard() {
                     height: 240,
                   }}
                 >
+                  <NavLink to="/reporter" style={{color:'DarkBlue', textDecoration: 'none' }}>
                   <RecordVoiceOverIcon />
                   <h2>Reporters</h2>
+                  </NavLink>
                 </Paper>
               </Grid>
               <Grid item xs={5} md={2} lg={4} >
                 <Paper
+                style={{backgroundSize: '50%', backgroundRepeat:'no-repeat', backgroundPosition:'right', backgroundImage: `url(${PatientImg})` }}
                   sx={{
                     p: 2,
                     display: 'flex',
@@ -73,12 +74,15 @@ function AdminDashboard() {
                     height: 240,
                   }}
                 >
+                  <NavLink to="/adminPatient" style={{ color:'DarkBlue', textDecoration: 'none' }}>
                   <ElderlyIcon />
                   <h2>Patients</h2>
+                  </NavLink>
                 </Paper>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
                 <Paper
+                style={{ backgroundSize: '65%',backgroundPosition:'right',backgroundRepeat:'no-repeat', backgroundImage: `url(${MedImg})` }}
                   sx={{
                     p: 2,
                     display: 'flex',
@@ -86,12 +90,15 @@ function AdminDashboard() {
                     height: 240,
                   }}
                 >
+                  <NavLink to="/medicine" style={{ color:'DarkBlue',textDecoration: 'none' }}>
                   <VaccinesIcon />
-                  <h2>Medicins</h2>
+                  <h2>Medicines</h2>
+                  </NavLink>
                 </Paper>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
                 <Paper
+                style={{backgroundSize: '50%', backgroundRepeat:'no-repeat', backgroundPosition:'right', backgroundImage: `url(${AdminImg})` }}
                   sx={{
                     p: 2,
                     display: 'flex',
@@ -99,7 +106,7 @@ function AdminDashboard() {
                     height: 240,
                   }}
                 >
-                  <NavLink to="/admin">
+                  <NavLink to="/admin" style={{ color:'DarkBlue',textDecoration: 'none' }}>
                   <AdminPanelSettingsIcon />
                   <h2>Admins</h2>
                   </NavLink>
@@ -107,9 +114,8 @@ function AdminDashboard() {
               </Grid>
             </Grid>
           </Container>
-        </Box>
-      </Box>
-    </ThemeProvider>
+          </div>
+    </div>
   );
 }
 

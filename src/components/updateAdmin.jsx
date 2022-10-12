@@ -5,6 +5,8 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Toolbar } from "@mui/material";
+import BackGround from '../images/adminBg.jpg';
+
 
 const UpdateAdmin = () => {
   const params = useParams();
@@ -15,18 +17,28 @@ const UpdateAdmin = () => {
   const[admin, setAdmin]=useState({
     adminId:"",
     adminName:"",
+    contact:"",
+    id:"",
     loginEmail:"",
+    loginPassword:"",
+    role:"",
+    loggedIn:"",
 });
 
 
   
   useEffect(() => {
     axios.get(`http://localhost:8080/admin/findfullById/${params.id}`)
-      .then((res) => {
-        const admin={
+      .then((res) => 
+     { const admin={
         adminId:res.data.adminId,
         adminName:res.data.adminName,
+        contact:res.data.contact,
+        id:res.data.login.id,
         loginEmail:res.data.login.loginEmail,
+        loginPassword:res.data.login.loginPassword,
+        role:res.data.login.role,
+        loggedIn:res.data.login.loggedIn,
       }
       setAdmin(admin)})
       .catch((err) => console.log(err));
@@ -35,7 +47,7 @@ const UpdateAdmin = () => {
   const handleChange = (event) => {
     console.log(event.target.name); // returns field name
     console.log(event.target.value); // retruns filed value
-
+    
     const newAdmin = { ...admin };
   
 
@@ -54,17 +66,17 @@ const UpdateAdmin = () => {
             adminName:admin.adminName,
             contact:admin.contact,
             login: {
-                id:admin.login.id,
-                loginEmail:admin.login.loginEmail,
+                id:admin.id,
+                loginEmail:admin.loginEmail,
+                loginPassword:admin.loginPassword,
             },
 
         };
 
-
         console.log(newAdmin);
 
     axios
-      .put(`http://localhost:8080/admin/update/${params.id}`, admin)
+      .put(`http://localhost:8080/admin/update/${params.id}`, newAdmin)
       .then((res) => {
         console.log(res);
         // alert user with msg
@@ -76,7 +88,7 @@ const UpdateAdmin = () => {
   };
   
   return (
-    <div>
+    <div style={{ height: '100vh', backgroundSize: '50%', backgroundImage: `url(${BackGround})` }}>
       <Toolbar/>
             <h2 align="center">Update Admin</h2>
             <form className="border p-3" onSubmit={handleSubmit}>
@@ -111,6 +123,26 @@ const UpdateAdmin = () => {
                     <TextField
                         required
                         style={{ width: "300px", margin: "10px" }}
+                        type="text"
+                        name="contact"
+                        id="contact"
+                        label="Contact"
+                        value={admin.contact}
+                        onChange={handleChange}/>
+                    <br/>
+                    <TextField
+                        disabled
+                        style={{ width: "300px", margin: "10px" }}
+                        type="text"
+                        name="id"
+                        label="Login Id"
+                        variant="outlined"
+                        value={admin.id}
+                        onChange={handleChange}/>
+                    <br/>
+                    <TextField
+                        required
+                        style={{ width: "300px", margin: "10px" }}
                         id="email"
                         name="loginEmail"
                         label="Eamil"
@@ -120,7 +152,7 @@ const UpdateAdmin = () => {
                 </div>
                 <Button type="submit" variant="contained" >Submit</Button>
             </Box>
-            </form>
+          </form>
     </div>
   );
 };

@@ -31,8 +31,7 @@ class Doctor extends Component{
     render() {
         return(
             <div>
-                <Toolbar />
-                <h2 align="center">Doctor Details</h2>
+                
                     <DoctorTable doctor={this.state.doctor}
                                 handleDelete={this.handleDelete}/>
             </div>

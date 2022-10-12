@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import { Toolbar } from "@mui/material";
 import Select from "@mui/material/Select";
 import MenuItem from '@mui/material/MenuItem';
-
+import BackGround from '../images/adminBg.jpg';
 
 
 const UpdateDoctor = () => {
@@ -23,6 +23,8 @@ const UpdateDoctor = () => {
     doctorAvailable:"",
 });
 
+  const[doctorErrors, setADoctorErrors]=useState({});
+  const[isSubmit,setIsSubmit]=useState(false);
 
   
   useEffect(() => {
@@ -47,6 +49,10 @@ const UpdateDoctor = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // send put request to update
+
+    setADoctorErrors(validate(doctor));
+    setIsSubmit(true);
+
     console.log("handleSubmit");
 
         const newDoctor={
@@ -56,8 +62,6 @@ const UpdateDoctor = () => {
             doctorAvailable:doctor.doctorAvailable,
 
         };
-
-
         console.log(newDoctor);
 
     axios
@@ -71,9 +75,29 @@ const UpdateDoctor = () => {
       })
       .catch((error) => console.log(error));
   };
+
+  useEffect(() =>{
+    console.log(doctorErrors);
+    if(Object.keys(doctorErrors).length===0 && isSubmit){
+        console.log(doctor);
+    }
+  },[doctorErrors])
   
+
+    const validate = (values) =>{
+       const errors ={}
+        if(!values.doctorName){
+            errors.doctorName="Name is Required!";
+        }
+        if(!values.spec){
+            errors.spec="Specialization is Required!";
+        }
+        return errors;
+    };
+
+
   return (
-    <div>
+    <div style={{ height: '100vh', backgroundSize: '50%', backgroundImage: `url(${BackGround})` }}>
       <Toolbar/>
             <h2 align="center">Update Doctor</h2>
             <form className="border p-3" onSubmit={handleSubmit}>
@@ -105,6 +129,8 @@ const UpdateDoctor = () => {
                         value={doctor.doctorName}
                         onChange={handleChange}/>
                     <br/>
+                    <h4 style={{color: "red"}}>{doctorErrors.doctorName}</h4>
+                    <h4>Specialization</h4>
                     <Select
                             required
                             id="spec"
@@ -131,12 +157,14 @@ const UpdateDoctor = () => {
                             <MenuItem value={"Ophthalmologists"}>Ophthalmologists</MenuItem>
                             <MenuItem value={"Pediatricians"}>Pediatricians</MenuItem>
                         </Select>
-                    <br/>
+                        <h4 style={{color: "red"}}>{doctorErrors.spec}</h4>
+                        <br/>
+                        <h4>Availability</h4>
                     <Select
                             required
                             id="availability"
-                            name="availability"
-                            value={doctor.availability}
+                            name="doctorAvailable"
+                            value={doctor.doctorAvailable}
                             label="Availability"
                             onChange={handleChange}
                             style={{ width: "250px", margin: "10px" }}
